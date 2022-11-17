@@ -2,7 +2,7 @@
 #from urllib.request import urlopen
 from requests import get
 import requests
-from requestUrl import RequestUrl
+from Functions.requestUrl import RequestUrl
 from lxml import etree, html
 
 #region [Properties]
