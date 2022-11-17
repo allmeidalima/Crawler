@@ -4,8 +4,15 @@ from requests import get
 from lxml import etree, html
 #import json
 
-
+    
 def RequestUrl(site):
     responseUrl = get(site)
     elementHtml = html.fromstring(responseUrl.text)
     return elementHtml
+
+def Log(string):
+    log = print(string)
+    return log
+
+def null():
+    return null 
