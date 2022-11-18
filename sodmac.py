@@ -58,7 +58,7 @@ for l in Categories:
         for n in nodes:
             if n == None:
                 Log(f"Não foi possivel coletar os link {n}")
-            elif iterator == 10:
+            elif iterator == 50:
                 break
             else:
                 linkProd = n.attrib["href"]
