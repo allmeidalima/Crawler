@@ -78,11 +78,7 @@ for l in Categories:
         for n in nodes:
             if n == None or len(nodes) == 0:
                 Log(f"Não foi possivel coletar os link {n}")
-<<<<<<< HEAD
-            elif iterator == 50:
-=======
             elif iterator == 30:
->>>>>>> Homologacao
                 break
             else:
                 #Na linha abaixo estamos coletando os links dos produtos contidos no atributo href dentro da tag 
