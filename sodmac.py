@@ -1,5 +1,5 @@
-#from bs4 import BeautifulSoup as bs
-#from urllib.request import urlopen
+from bs4 import BeautifulSoup as bs
+from urllib.request import urlopen
 import requests
 from lxml import etree, html
 from requests import get
@@ -29,7 +29,6 @@ else:
         categorie = n.xpath('./li/a')
         if categorie == null:
             Log(f"Não foi possivel coletar os link {n}")
-            iterator = iterator + 1
         elif iterator == 10:
             break
         else:
@@ -37,8 +36,7 @@ else:
                 link = c.attrib["href"]
                 Categories.append(link)
                 iterator = iterator + 1
-                if iterator == 10:
-                    break
+                
 
 Log(f"{len(Categories)} categorias coletadas")
 
@@ -48,22 +46,28 @@ Log(f"{len(Categories)} categorias coletadas")
 
 linkProduct = []
 
+iterator = 0
 for l in Categories:
     url = f"{_urlPrincipal}{l}"
     categories = RequestUrl(url)
     if categories == None:
         Log("Não foi possivel coletar o categorias")
+    
     else:
         nodes = categories.xpath('//*[@id="title-pdp-link"]')
         for n in nodes:
             if n == None:
                 Log(f"Não foi possivel coletar os link {n}")
+            elif iterator == 10:
+                break
             else:
                 linkProd = n.attrib["href"]
                 linkProduct.append(linkProd)
+                iterator = iterator + 1
+                
                 #Log(f"Link coletado {linkProd}")
 
-#print(len(linkProduct))
+print(len(linkProduct))
 
 #endregion
 
@@ -87,4 +91,27 @@ for p in linkProduct:
         ean = products.xpath('//*[@id="__next"]/div[1]/div/div[4]/div[2]/div[1]/div[1]/div[1]/div[2]/text()[3]')
         for e in ean:
             productModel.ProdcutEan = e
+
+        priceInt = products.xpath('//*[@id="__next"]/div[1]/div/div[4]/div[2]/div[1]/div[2]/div/div/span[2]')
+        priceCoin = products.xpath('//*[@id="__next"]/div[1]/div/div[4]/div[2]/div[1]/div[2]/div/div/span[3]')
+        for pi in priceInt:
+            price1 = pi.text
+        for pc in priceCoin:
+            price2 = pc.text
+        productModel.ProductPrice = f"{price1}{price2}"
+        productModel.Currency = "R$"
+        productModel.ProductSeller = "Sodimac"
+
+        description = products.xpath('//*[@id="description"]/div[1]/p[1]')
+        if description == None:
+            Log("Não existe descrição")
+        else:
+            for t in description:
+                productModel.Description = t.text
+
+    product.append(productModel)
+    Log("Product collected")
+
+print(len(product))
+
 #endregion
