@@ -144,8 +144,8 @@ for p in linkProduct:
                 productModel.Description = t.text
 
     product.append(productModel)
-    Log("Product collected")
+    Log(f"Product collected {p}")
 
-print(len(product))
+#print(len(product))
 
 #endregion
